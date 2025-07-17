@@ -1,0 +1,30 @@
+ # 依赖文件
+/node_modules
+/package-lock.json
+/yarn.lock
+
+# 编译输出目录
+/dist
+/out
+/public
+
+# IDE/编辑器配置
+.idea
+.vscode
+.DS_Store
+
+
+# 缓存文件
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 测试报告
+/coverage
+/test-results
+
+# Vue CLI 生成的临时文件
+*.local
+
+# 自定义构建输出
+/build

@@ -1,0 +1,40 @@
+{
+  "name": "hand-login",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "yarn serve",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "core-js": "^3.8.3",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.3"
+  },
+  "devDependencies": {
+    "@vicons/ionicons5": "^0.13.0",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "autoprefixer": "^10.4.21",
+    "axios": "^1.10.0",
+    "less": "^4.0.0",
+    "less-loader": "^8.0.0",
+    "naive-ui": "^2.42.0",
+    "pinia": "^3.0.3",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "tdesign-vue-next": "^1.14.2",
+    "vfonts": "^0.0.3",
+    "vicons": "^0.0.1",
+    "vue-i18n": "^11.1.9"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}
