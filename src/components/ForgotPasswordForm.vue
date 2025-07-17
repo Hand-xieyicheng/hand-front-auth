@@ -1,32 +1,46 @@
 <template>
   <div class="form-container">
+    <div class="text-center mb-10">
+          <h2 class="text-[clamp(1.5rem,3vw,2rem)] text-left font-bold text-gray-800">找回密码</h2>
+          <p class="text-gray-500 mt-2 text-left">请输入您的邮箱地址，我们将发送重置密码的邮件</p>
+          <!-- <TMessage
+        
+        theme="error"
+        :content="errors.email"
+        class="mt-2"
+      /> -->
+      <div class=" h-6">
+        <div class="text-sm bg-red-500 text-white p-2 rounded-md" v-show="errors.email">
+        {{ errors.email }}
+      </div>
+      </div>
+        </div>
     <TForm>
       <!-- 邮箱 -->
       <TInput
+        class="mb-4"
+        size="large"
         v-model="formData.email"
         placeholder="邮箱"
         type="email"
         :status="getFieldStatus('email')"
-      />
-      <TMessage
-        v-if="errors.email"
-        theme="error"
-        :content="errors.email"
-        class="mt-2"
-      />
+      >
+      <template #prefix-icon>
+            <DesktopIcon />
+          </template>
+      </TInput>
 
       <!-- 发送邮件按钮 -->
       <div class="mt-6">
-        <TButton @click="handleForgotPassword" type="primary" :loading="loading" :disabled="loading" block>
+        <TButton size="large" @click="handleForgotPassword" type="primary" :loading="loading" :disabled="loading" block>
           发送重置密码邮件
         </TButton>
       </div>
 
       <!-- 返回登录 -->
       <div class="mt-4 text-center">
-        <router-link to="/" class="text-primary hover:text-primary-dark transition-colors">
-          返回登录
-        </router-link>
+        <span class="text-gray-500 text-sm">记起来了? </span>
+        <t-link @click="onchangeOperate('login')" theme="primary">返回登录</t-link>
       </div>
     </TForm>
   </div>
@@ -36,8 +50,13 @@
 import { ref, reactive } from 'vue';
 import { forgotPassword } from '@/api/auth';
 import { useRouter } from 'vue-router';
-import { MessagePlugin } from 'tdesign-vue-next';
-
+import { MessagePlugin, DesktopIcon, LockOnIcon } from 'tdesign-vue-next';
+const props = defineProps({
+  onchangeOperate: {
+    type: Function,
+    required: true,
+  },
+});
 const router = useRouter();
 const loading = ref(false);
 const formData = reactive({

@@ -1,8 +1,14 @@
 <template>
   <div class="form-container">
+    <div class="text-center mb-10">
+          <h2 class="text-[clamp(1.5rem,3vw,2rem)] text-left font-bold text-gray-800">注册</h2>
+          <p class="text-gray-500 mt-2 text-left">创建您的账户，开启新的旅程</p>
+        </div>
     <form @submit.prevent="handleRegister">
       <!-- 用户名 -->
       <TInput
+        class="mb-4"
+        size="large"
         v-model="formData.username"
         placeholder="用户名"
         :status="getFieldStatus('username')"
@@ -16,6 +22,8 @@
 
       <!-- 邮箱 -->
       <TInput
+        class="mb-4"
+        size="large"
         v-model="formData.email"
         placeholder="邮箱"
         type="email"
@@ -30,6 +38,8 @@
 
       <!-- 密码 -->
       <TInput
+        class="mb-4"
+        size="large"
         v-model="formData.password"
         type="password"
         placeholder="密码"
@@ -44,6 +54,8 @@
 
       <!-- 确认密码 -->
       <TInput
+        class="mb-4"
+        size="large"
         v-model="formData.confirmPassword"
         type="password"
         placeholder="确认密码"
@@ -58,17 +70,15 @@
 
       <!-- 注册按钮 -->
       <div class="mt-6">
-        <TButton type="primary" :loading="loading" :disabled="loading" block>
+        <TButton size="large" type="primary" :loading="loading" :disabled="loading" block>
           注册
         </TButton>
       </div>
 
       <!-- 已有账户 -->
       <div class="mt-4 text-center">
-        <span class="text-gray-500">已有账户?</span>
-        <router-link to="/" class="text-primary hover:text-primary-dark ml-2 transition-colors">
-          去登录
-        </router-link>
+        <span class="text-gray-500 text-sm">已有账户? </span>
+        <t-link @click="onchangeOperate('login')" theme="primary">去登录</t-link>
       </div>
     </form>
   </div>
@@ -78,7 +88,12 @@
 import { ref, reactive } from 'vue';
 import { register } from '@/api/auth';
 import { useRouter } from 'vue-router';
-
+const props = defineProps({
+  onchangeOperate: {
+    type: Function,
+    required: true,
+  },
+});
 const router = useRouter();
 const loading = ref(false);
 const formData = reactive({

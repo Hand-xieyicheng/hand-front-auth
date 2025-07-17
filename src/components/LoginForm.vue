@@ -1,87 +1,60 @@
 <template>
   <div class="form-container">
+    <div class="text-center mb-10">
+      <div class="flex items-center">
+        <img src="@/assets/logo.png" alt="" srcset="" class="w-6 mr-4">
+        <h2 class="text-[clamp(1.5rem,3vw,2rem)] text-left font-bold text-gray-800 colorful-text">登录Hand me</h2>
+      </div>
+      <p class="text-gray-500 mt-2 text-left text-sm">登录您的账户，继续您的旅程</p>
+    </div>
     <!-- 表单内容 -->
-    <form @submit.prevent="handleLogin">
+    <TFORM>
       <!-- 用户名/邮箱输入框 -->
-      <TInput
-        v-model="formData.identifier"
-        placeholder="用户名/邮箱"
-        :status="getFieldStatus('identifier')"
-      />
-      <TMessage
-        v-if="errors.identifier"
-        theme="error"
-        :content="errors.identifier"
-        class="mt-2"
-      />
-
+      <TInput class="mb-4" v-model="formData.identifier" size="large" placeholder="用户名/邮箱" :status="getFieldStatus('identifier')">
+        <template #prefix-icon>
+            <DesktopIcon />
+          </template>
+      </TInput>
+      <TMessage v-if="errors.identifier" theme="error" :content="errors.identifier" class="mt-2" />
       <!-- 密码输入框 -->
-      <TInput
-        v-model="formData.password"
-        type="password"
-        placeholder="密码"
-        :status="getFieldStatus('password')"
-      />
-      <TMessage
-        v-if="errors.password"
-        theme="error"
-        :content="errors.password"
-        class="mt-2"
-      />
+      <TInput class="mb-4" v-model="formData.password" type="password" size="large" placeholder="密码" :status="getFieldStatus('password')">
+        <template #prefix-icon>
+            <LockOnIcon />
+          </template>
+      </TInput>
+      <TMessage v-if="errors.password" theme="error" :content="errors.password" class="mt-2" />
 
       <!-- 验证码 -->
-      <div class="flex items-center gap-3">
-        <TInput
-          v-model="formData.captcha"
-          placeholder="验证码"
-          :status="getFieldStatus('captcha')"
-        />
-        <img
-          :src="captchaUrl"
-          alt="验证码"
-          class="h-10 rounded cursor-pointer"
-          @click="refreshCaptcha"
-        />
+      <div class="flex items-center gap-3 mb-4">
+        <TInput size="large" v-model="formData.captcha" placeholder="验证码" :status="getFieldStatus('captcha')" >
+          <template #prefix-icon>
+            <Barcode1Icon />
+          </template>
+        </TInput>
+        <img :src="captchaUrl" alt="验证码" class="h-10 rounded cursor-pointer" @click="refreshCaptcha" />
       </div>
-      <TMessage
-        v-if="errors.captcha"
-        theme="error"
-        :content="errors.captcha"
-        class="mt-2"
-      />
-
+      <TMessage v-if="errors.captcha" theme="error" :content="errors.captcha" class="mt-2" />
+      <TCheckbox v-model="rememberMe">记住密码</TCheckbox>
       <!-- 记住密码和登录按钮 -->
-      <div class="flex justify-between items-center mt-6">
-        <TCheckbox v-model="rememberMe">记住密码</TCheckbox>
-        <TButton type="primary" :loading="loading" :disabled="loading">
+      <div class="flex justify-between items-center mt-6 gap-4">
+        <TButton size="large" class="w-full" @click="onchangeOperate('register')" theme="none">
+        注册
+      </TButton>
+        <TButton size="large" class="w-full colorful-button" @click="handleLogin" type="primary" :loading="loading" :disabled="loading">
           登录
         </TButton>
       </div>
-    </form>
-
-    <!-- 底部链接 -->
-    <div class="flex justify-between mt-8">
-      <router-link
-        to="/register"
-        class="text-primary hover:text-primary-dark transition-colors"
-      >
-        注册
-      </router-link>
-      <router-link
-        to="/forgot-password"
-        class="text-primary hover:text-primary-dark transition-colors"
-      >
-        忘记密码?
-      </router-link>
-    </div>
+    </TFORM>
     <div class="flex justify-center mt-4 text-sm text-gray-500">
-      <router-link to="/privacy" class="hover:text-primary transition-colors"
-        >隐私协议</router-link
-      >
+      <router-link to="/privacy" class="hover:text-primary transition-colors">
+        <t-link theme="primary">隐私协议</t-link>
+      </router-link>
       <span class="mx-2">|</span>
-      <router-link to="/terms" class="hover:text-primary transition-colors"
-        >用户须知</router-link
-      >
+      <router-link to="/terms" class="hover:text-primary transition-colors">
+      <t-link theme="primary">用户须知</t-link>
+      </router-link>
+      <span class="mx-2">|</span>
+      <t-link @click="onchangeOperate('forgotPassword')" theme="primary">忘记密码</t-link>
     </div>
   </div>
 </template>
@@ -90,6 +63,15 @@
 import { ref, reactive, onMounted } from "vue";
 import { login, getCaptcha } from "@/api/auth";
 import { useRouter } from "vue-router";
+import { Barcode1Icon, DesktopIcon, LockOnIcon } from 'tdesign-icons-vue-next';
+
+const props = defineProps({
+  onchangeOperate: {
+    type: Function,
+    required: true,
+  },
+});
+
 
 const router = useRouter();
 const loading = ref(false);
@@ -160,7 +142,6 @@ const getFieldStatus = (field) => {
 // 处理登录
 const handleLogin = async () => {
   if (!validateForm()) return;
-
   loading.value = true;
   try {
     const response = await login(formData);

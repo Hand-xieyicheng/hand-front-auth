@@ -1,2 +1,12 @@
 @import "tailwindcss";
 
+.colorful-text {
+    background: linear-gradient(78deg, #3B91FF -3.23%, #0D5EFF 51.11%, #C069FF 98.65%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.colorful-button {
+    background: linear-gradient(78deg, #3B91FF -3.23%, #0D5EFF 51.11%, #C069FF 98.65%);
+    color: #fff;
+}

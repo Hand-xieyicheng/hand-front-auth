@@ -1,5 +1,12 @@
 <template>
   <div class="form-container">
+    <div class="text-center mb-10">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+            <i class="text-primary text-2xl fa fa-lock"></i>
+          </div>
+          <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-gray-800">重置密码</h2>
+          <p class="text-gray-500 mt-2">为您的账户设置新密码</p>
+        </div>
     <form @submit.prevent="handleResetPassword">
       <!-- 新密码 -->
       <TInput

@@ -25,13 +25,7 @@
     <!-- 右侧重置密码表单 -->
     <div class="w-full md:w-1/2 flex items-center justify-center p-6 md:p-12">
       <div class="w-full max-w-md">
-        <div class="text-center mb-10">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <i class="text-primary text-2xl fa fa-lock"></i>
-          </div>
-          <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-gray-800">重置密码</h2>
-          <p class="text-gray-500 mt-2">为您的账户设置新密码</p>
-        </div>
+        
         <ResetPasswordForm :token="token" />
       </div>
     </div>
