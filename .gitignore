@@ -6,7 +6,6 @@
 # 编译输出目录
 /dist
 /out
-/public
 
 # IDE/编辑器配置
 .idea

@@ -25,8 +25,38 @@
       </div>
     </div>
     <!-- 右侧登录表单 -->
-    <div class="w-full max-w-lg mx-auto flex items-center justify-center p-6 md:p-12">
+    <div class="w-full max-w-xl mx-auto flex items-center justify-center p-6 md:p-12">
       <div class="w-full max-w-md">
+    <div class="text-center mb-10">
+      <div class="flex items-center">
+        <img src="@/assets/logo.png" alt="" srcset="" class="w-6 mr-4">
+        <h2 class="text-[clamp(1.5rem,3vw,2rem)] text-left font-bold text-gray-800 colorful-text">{{headerData.title}}</h2>
+      </div>
+      <p class="text-gray-500 mt-2 text-left text-sm">{{headerData.subTitle}}</p>
+    </div>
+        <!-- <transition
+    name="fade"
+    enter-active-class="animate__animated animate__backInUp"
+    leave-active-class="animate__animated animate__backOutUp"
+  >
+    <RegisterForm v-if="operate === 'register'" :onchangeOperate="onchangeOperate" key="register" />
+  </transition>
+  
+  <transition
+    name="fade2"
+    enter-active-class="animate__animated animate__backInUp"
+    leave-active-class="animate__animated animate__backOutUp"
+  >
+    <LoginForm v-if="operate === 'login'" :onchangeOperate="onchangeOperate" key="login" />
+  </transition>
+  
+  <transition
+    name="fade3"
+    enter-active-class="animate__animated animate__backInUp"
+    leave-active-class="animate__animated animate__backOutUp"
+  >
+    <ForgotPasswordForm v-if="operate === 'forgotPassword'" :onchangeOperate="onchangeOperate" key="forgotPassword" />
+  </transition> -->
         <RegisterForm v-if="operate === 'register'" :onchangeOperate="onchangeOperate" />
         <LoginForm v-if="operate === 'login'" :onchangeOperate="onchangeOperate" />
         <ForgotPasswordForm v-if="operate === 'forgotPassword'" :onchangeOperate="onchangeOperate" />
@@ -40,8 +70,27 @@ import { ref } from 'vue';
 import LoginForm from '@/components/LoginForm.vue';
 import RegisterForm from '@/components/RegisterForm.vue';
 import ForgotPasswordForm from '@/components/ForgotPasswordForm.vue';
+const headerDataObj = {
+  login: {
+    title: '登录Hand me',
+    subTitle: '登录您的账户，继续您的旅程'
+  },
+  register: {
+    title: '注册Hand me',
+    subTitle: '创建您的账户，开启新的旅程'
+  },
+  forgotPassword: {
+    title: '找回密码',
+    subTitle: '请输入您的邮箱地址，我们将发送重置密码的邮件'
+  }
+}
 let operate = ref('login');
+let headerData = ref(headerDataObj[operate.value]);
+const handleChangeHeaderData = () => {
+  headerData.value = headerDataObj[operate.value];
+}
 const onchangeOperate = (val) => {
   operate.value = val;
+  handleChangeHeaderData();
 }
 </script>

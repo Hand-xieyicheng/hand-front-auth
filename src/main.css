@@ -9,4 +9,12 @@
 .colorful-button {
     background: linear-gradient(78deg, #3B91FF -3.23%, #0D5EFF 51.11%, #C069FF 98.65%);
     color: #fff;
+    border: none;
+}
+
+:root {
+    --td-brand-color: #0D5EFF;
+    --td-warning-color: yellow;
+    --td-error-color: red;
+    --td-success-color: green;
 }

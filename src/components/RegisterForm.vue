@@ -1,9 +1,5 @@
 <template>
   <div class="form-container">
-    <div class="text-center mb-10">
-          <h2 class="text-[clamp(1.5rem,3vw,2rem)] text-left font-bold text-gray-800">注册</h2>
-          <p class="text-gray-500 mt-2 text-left">创建您的账户，开启新的旅程</p>
-        </div>
     <form @submit.prevent="handleRegister">
       <!-- 用户名 -->
       <TInput
@@ -12,7 +8,11 @@
         v-model="formData.username"
         placeholder="用户名"
         :status="getFieldStatus('username')"
-      />
+      >
+      <template #prefix-icon>
+            <DesktopIcon />
+          </template>
+        </TInput>
       <TMessage
         v-if="errors.username"
         theme="error"
@@ -28,7 +28,11 @@
         placeholder="邮箱"
         type="email"
         :status="getFieldStatus('email')"
-      />
+      >
+        <template #prefix-icon>
+            <MailIcon />
+          </template>
+      </TInput>
       <TMessage
         v-if="errors.email"
         theme="error"
@@ -44,7 +48,11 @@
         type="password"
         placeholder="密码"
         :status="getFieldStatus('password')"
-      />
+      >
+        <template #prefix-icon>
+            <LockOnIcon />
+          </template>
+      </TInput>
       <TMessage
         v-if="errors.password"
         theme="error"
@@ -60,7 +68,11 @@
         type="password"
         placeholder="确认密码"
         :status="getFieldStatus('confirmPassword')"
-      />
+      >
+        <template #prefix-icon>
+            <LockOnIcon />
+          </template>
+      </TInput>
       <TMessage
         v-if="errors.confirmPassword"
         theme="error"
@@ -88,6 +100,8 @@
 import { ref, reactive } from 'vue';
 import { register } from '@/api/auth';
 import { useRouter } from 'vue-router';
+import { Barcode1Icon, DesktopIcon, LockOnIcon, MailIcon } from 'tdesign-icons-vue-next';
+
 const props = defineProps({
   onchangeOperate: {
     type: Function,

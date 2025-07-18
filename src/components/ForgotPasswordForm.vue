@@ -1,35 +1,19 @@
 <template>
   <div class="form-container">
-    <div class="text-center mb-10">
-          <h2 class="text-[clamp(1.5rem,3vw,2rem)] text-left font-bold text-gray-800">找回密码</h2>
-          <p class="text-gray-500 mt-2 text-left">请输入您的邮箱地址，我们将发送重置密码的邮件</p>
-          <!-- <TMessage
+    <TForm>
+      <!-- 邮箱 -->
+      <TInput class="mb-4" size="large" v-model="formData.email" placeholder="邮箱" type="email"
+        :status="getFieldStatus('email')">
+        <template #prefix-icon>
+          <MailIcon />
+        </template>
+      </TInput>
+      <TMessage
         
         theme="error"
         :content="errors.email"
         class="mt-2"
-      /> -->
-      <div class=" h-6">
-        <div class="text-sm bg-red-500 text-white p-2 rounded-md" v-show="errors.email">
-        {{ errors.email }}
-      </div>
-      </div>
-        </div>
-    <TForm>
-      <!-- 邮箱 -->
-      <TInput
-        class="mb-4"
-        size="large"
-        v-model="formData.email"
-        placeholder="邮箱"
-        type="email"
-        :status="getFieldStatus('email')"
-      >
-      <template #prefix-icon>
-            <DesktopIcon />
-          </template>
-      </TInput>
-
+      />
       <!-- 发送邮件按钮 -->
       <div class="mt-6">
         <TButton size="large" @click="handleForgotPassword" type="primary" :loading="loading" :disabled="loading" block>
@@ -50,7 +34,9 @@
 import { ref, reactive } from 'vue';
 import { forgotPassword } from '@/api/auth';
 import { useRouter } from 'vue-router';
-import { MessagePlugin, DesktopIcon, LockOnIcon } from 'tdesign-vue-next';
+import { MessagePlugin } from 'tdesign-vue-next';
+import { MailIcon } from 'tdesign-icons-vue-next';
+
 const props = defineProps({
   onchangeOperate: {
     type: Function,
@@ -96,16 +82,16 @@ const getFieldStatus = (field) => {
 // 处理忘记密码
 const handleForgotPassword = async () => {
   if (!validateForm()) return;
-  console.log('发送重置密码邮件',111);
+  console.log('发送重置密码邮件', 111);
 
   loading.value = true;
   try {
     debugger
     const res = await forgotPassword({ email: formData.email });
-    console.log('发送重置密码邮件',res);
-    if(res.status === "fail"){
+    console.log('发送重置密码邮件', res);
+    if (res.status === "fail") {
       MessagePlugin.error({ content: res.msg })
-    } else if(res.status === "success"){
+    } else if (res.status === "success") {
       MessagePlugin.success({ content: res.msg })
     }
     // 发送成功，跳转到确认页面

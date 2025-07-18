@@ -1,12 +1,5 @@
 <template>
   <div class="form-container">
-    <div class="text-center mb-10">
-      <div class="flex items-center">
-        <img src="@/assets/logo.png" alt="" srcset="" class="w-6 mr-4">
-        <h2 class="text-[clamp(1.5rem,3vw,2rem)] text-left font-bold text-gray-800 colorful-text">登录Hand me</h2>
-      </div>
-      <p class="text-gray-500 mt-2 text-left text-sm">登录您的账户，继续您的旅程</p>
-    </div>
     <!-- 表单内容 -->
     <TFORM>
       <!-- 用户名/邮箱输入框 -->
@@ -31,11 +24,15 @@
             <Barcode1Icon />
           </template>
         </TInput>
-        <img :src="captchaUrl" alt="验证码" class="h-10 rounded cursor-pointer" @click="refreshCaptcha" />
+        <t-image :key="errorCount"  @click="refreshCaptcha" :src="captchaUrl" class="h-10 rounded cursor-pointer min-w-[100px]" :error="renderCustomIcon" />
       </div>
       <TMessage v-if="errors.captcha" theme="error" :content="errors.captcha" class="mt-2" />
-      <TCheckbox v-model="rememberMe">记住密码</TCheckbox>
       <!-- 记住密码和登录按钮 -->
+       <div class="flex justify-between items-center">
+      <TCheckbox v-model="rememberMe"><span class="text-gray-500">记住密码</span></TCheckbox>
+      <t-link @click="onchangeOperate('forgotPassword')" theme="primary">忘记密码?</t-link>
+
+       </div>
       <div class="flex justify-between items-center mt-6 gap-4">
         <TButton size="large" class="w-full" @click="onchangeOperate('register')" theme="none">
         注册
@@ -47,23 +44,21 @@
     </TFORM>
     <div class="flex justify-center mt-4 text-sm text-gray-500">
       <router-link to="/privacy" class="hover:text-primary transition-colors">
-        <t-link theme="primary">隐私协议</t-link>
+        <t-link class="opacity-50" underline theme="default" size="small">隐私协议</t-link>
       </router-link>
-      <span class="mx-2">|</span>
+      <span class="mx-2 opacity-50">|</span>
       <router-link to="/terms" class="hover:text-primary transition-colors">
-      <t-link theme="primary">用户须知</t-link>
+      <t-link class="opacity-50" underline theme="default" size="small">用户须知</t-link>
       </router-link>
-      <span class="mx-2">|</span>
-      <t-link @click="onchangeOperate('forgotPassword')" theme="primary">忘记密码</t-link>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, h } from "vue";
 import { login, getCaptcha } from "@/api/auth";
 import { useRouter } from "vue-router";
-import { Barcode1Icon, DesktopIcon, LockOnIcon } from 'tdesign-icons-vue-next';
+import { Barcode1Icon, DesktopIcon, LockOnIcon, ImageErrorIcon } from 'tdesign-icons-vue-next';
 
 const props = defineProps({
   onchangeOperate: {
@@ -87,6 +82,8 @@ const errors = reactive({
   captcha: ""
 });
 const captchaUrl = ref("");
+
+const renderCustomIcon = () => h(ImageErrorIcon, { size: 16 });
 
 // 获取验证码
 const fetchCaptcha = async () => {

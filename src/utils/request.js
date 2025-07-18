@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { NotifyPlugin } from 'tdesign-vue-next';
 // 创建axios实例
 const service = axios.create({
   baseURL: 'http://localhost:9099', // API基础URL
@@ -34,12 +34,16 @@ service.interceptors.response.use(
   (error) => {
     // 处理响应错误
     console.error('响应错误:', error);
-    
+    // 处理"ERR_NETWORK"错误
+    if (error.code === 'ERR_NETWORK') {
+      // 显示网络错误提示
+      NotifyPlugin('error', { title: '网络错误，请检查网络连接', content: error.message })
+    }
     // 统一处理401未授权错误
     if (error.response && error.response.status === 401) {
       // 清除token并跳转到登录页
       localStorage.removeItem('token');
-      window.location.href = '/login';
+      NotifyPlugin('error', { title: '未授权，请重新登录', content: error.message })
     }
     
     return Promise.reject(error);
