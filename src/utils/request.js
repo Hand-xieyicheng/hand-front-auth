@@ -2,8 +2,8 @@ import axios from 'axios';
 import { NotifyPlugin } from 'tdesign-vue-next';
 // 创建axios实例
 const service = axios.create({
-  // baseURL: 'http://localhost:9099', // API基础URL
-  baseURL: 'http://10.211.105.98:9099', // API基础URL
+  baseURL: 'http://localhost:9099', // API基础URL
+  // baseURL: 'http://10.211.105.98:9099', // API基础URL
   timeout: 5000, // 请求超时时间
 });
 

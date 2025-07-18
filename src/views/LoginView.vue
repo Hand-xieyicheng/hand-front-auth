@@ -58,8 +58,8 @@
     <ForgotPasswordForm v-if="operate === 'forgotPassword'" :onchangeOperate="onchangeOperate" key="forgotPassword" />
   </transition> -->
         <RegisterForm v-if="operate === 'register'" :onchangeOperate="onchangeOperate" />
-        <LoginForm v-if="operate === 'login'" :onchangeOperate="onchangeOperate" />
-        <ForgotPasswordForm v-if="operate === 'forgotPassword'" :onchangeOperate="onchangeOperate" />
+        <ForgotPasswordForm v-else-if="operate === 'forgotPassword'" :onchangeOperate="onchangeOperate" />
+        <LoginForm v-else :onchangeOperate="onchangeOperate" />
       </div>
     </div>
   </div>

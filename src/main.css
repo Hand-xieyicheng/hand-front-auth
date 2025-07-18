@@ -21,9 +21,17 @@
     background-clip: padding-box, border-box;
 }
 
-.red-bg {
+.red-bg::after {
     background-image: url("/src/assets/red-bg.png");
-    background-size: cover;
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: -1;
+    background-size: contain;
+    height: 100%;
+    background-repeat: no-repeat;
 }
 
 :root {

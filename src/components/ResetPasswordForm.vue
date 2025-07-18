@@ -1,55 +1,44 @@
 <template>
   <div class="form-container">
-    <div class="text-center mb-10">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <i class="text-primary text-2xl fa fa-lock"></i>
-          </div>
-          <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-gray-800">重置密码</h2>
-          <p class="text-gray-500 mt-2">为您的账户设置新密码</p>
-        </div>
-    <form @submit.prevent="handleResetPassword">
+    <div class="min-h-[45px]">
+      <div class="text-red-500 text-sm bg-red-100 rounded p-2 mt-2 mb-2 flex items-center gap-1" v-if="errors.newPassword || errors.confirmPassword">
+        <error-circle-icon /> {{ errors.newPassword || errors.confirmPassword }}
+      </div>
+    </div>
+    <t-form>
       <!-- 新密码 -->
       <t-input
+      size="large"
+      class="mb-4"
         v-model="formData.newPassword"
         type="password"
         placeholder="新密码"
         :status="getFieldStatus('newPassword')"
       />
-      <TMessage
-        v-if="errors.newPassword"
-        theme="error"
-        :content="errors.newPassword"
-        class="mt-2"
-      />
 
       <!-- 确认新密码 -->
       <t-input
+      size="large"
+      class="mb-4"
         v-model="formData.confirmPassword"
         type="password"
         placeholder="确认新密码"
         :status="getFieldStatus('confirmPassword')"
       />
-      <TMessage
-        v-if="errors.confirmPassword"
-        theme="error"
-        :content="errors.confirmPassword"
-        class="mt-2"
-      />
 
       <!-- 重置密码按钮 -->
       <div class="mt-6">
-        <TButton type="primary" :loading="loading" :disabled="loading" block>
+        <t-button class="colorful-button" size="large" @click="handleResetPassword" type="primary" :loading="loading" :disabled="loading" block>
           重置密码
-        </TButton>
+        </t-button>
       </div>
 
       <!-- 返回登录 -->
       <div class="mt-4 text-center">
-        <router-link to="/" class="text-primary hover:text-primary-dark transition-colors">
-          返回登录
-        </router-link>
+        <span class="text-gray-500 text-sm">我又想起来啦， </span>
+        <t-link @click="handleGoLogin" theme="primary">返回登录</t-link>
       </div>
-    </form>
+    </t-form>
   </div>
 </template>
 
@@ -57,6 +46,7 @@
 import { ref, reactive, defineProps } from 'vue';
 import { resetPassword } from '@/api/auth';
 import { useRouter } from 'vue-router';
+import { ErrorCircleIcon } from 'tdesign-icons-vue-next';
 
 const props = defineProps({
   token: {
@@ -119,11 +109,11 @@ const handleResetPassword = async () => {
 
   loading.value = true;
   try {
-    await resetPassword({
+    const res = await resetPassword({
       token: props.token,
       newPassword: formData.newPassword,
     });
-    
+    NotifyPlugin('success', { title: '重置成功', content: res.message, duration: 3000, closeBtn: true })
     // 重置成功，跳转到登录页
     router.push({
       name: 'Login',
@@ -144,5 +134,9 @@ const handleResetPassword = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+const handleGoLogin = () => {
+  router.push({ name: 'Login' });
 };
 </script>

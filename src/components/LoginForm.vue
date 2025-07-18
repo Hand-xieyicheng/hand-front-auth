@@ -39,13 +39,13 @@
         </t-link>
       </div>
       <div class="flex justify-between items-center mt-6 gap-4">
-        <TButton size="large" class="w-full" @click="onchangeOperate('register')" theme="none">
+        <t-button size="large" class="w-full" @click="onchangeOperate('register')" theme="none">
           注&nbsp;&nbsp;册
-        </TButton>
-        <TButton size="large" class="w-full colorful-button" @click="handleLogin" type="primary" :loading="loading"
+        </t-button>
+        <t-button size="large" class="w-full colorful-button" @click="handleLogin" type="primary" :loading="loading"
           :disabled="loading">
           登&nbsp;&nbsp;录
-        </TButton>
+        </t-button>
       </div>
     </t-form>
     <div class="flex justify-center mt-4 text-sm text-gray-500">

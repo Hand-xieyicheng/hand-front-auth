@@ -15,9 +15,9 @@
       </t-auto-complete>
       <!-- 发送邮件按钮 -->
       <div class="mt-6">
-        <TButton size="large" @click="handleForgotPassword" type="primary" :loading="loading" :disabled="loading" block>
+        <t-button size="large" @click="handleForgotPassword" type="primary" :loading="loading" :disabled="loading" block>
           发送重置密码邮件
-        </TButton>
+        </t-button>
       </div>
 
       <!-- 返回登录 -->
@@ -91,7 +91,7 @@ const handleForgotPassword = async () => {
     if (res.status === "fail") {
       MessagePlugin.error({ content: res.msg })
     } else if (res.status === "success") {
-      MessagePlugin.success({ content: res.msg })
+      MessagePlugin.success({ content: res.body.message })
     }
     // 发送成功，跳转到确认页面
     // router.push({

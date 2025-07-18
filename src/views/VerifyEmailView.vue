@@ -1,38 +1,30 @@
 <template>
   <div class="flex min-h-screen items-center justify-center p-6">
-    <div class="w-full max-w-md text-center">
-      <div class="mb-6">
-        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4">
-          <i class="text-primary text-3xl fa fa-envelope-open"></i>
-        </div>
-      </div>
-      
-      <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-gray-800 mb-4">验证邮箱</h2>
+    <div class="w-full max-w-lg text-center">
+      <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-gray-800 mb-4 flex items-center justify-center"> 
+        <img src="@/assets/logo.png" alt="" srcset="" class="w-6 mr-4">
+        验证邮箱</h2>
       
       <div v-if="loading" class="py-8">
         <TLoading content="正在验证邮箱..." />
       </div>
       
       <div v-else-if="success" class="py-8">
-        <div class="text-green-500 mb-4">
-          <i class="fa fa-check-circle text-4xl"></i>
-        </div>
+        <div class="text-5xl mb-6">🥳</div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">邮箱验证成功</h3>
         <p class="text-gray-600 mb-6">您的邮箱已成功验证，现在可以登录您的账户。</p>
-        <TButton type="primary" @click="goToLogin">
+        <t-button class="colorful-button" size="large" type="primary" @click="goToLogin">
           前往登录
-        </TButton>
+        </t-button>
       </div>
       
       <div v-else class="py-8">
-        <div class="text-red-500 mb-4">
-          <i class="fa fa-times-circle text-4xl"></i>
-        </div>
+        <div class="text-5xl mb-6">😭</div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">邮箱验证失败</h3>
         <p class="text-gray-600 mb-6">验证链接无效或已过期，请检查链接是否完整，或尝试重新注册。</p>
-        <TButton type="primary" @click="goToRegister">
+        <t-button size="large" type="primary" @click="goToRegister">
           重新注册
-        </TButton>
+        </t-button>
       </div>
     </div>
   </div>
@@ -74,6 +66,6 @@ const goToLogin = () => {
 };
 
 const goToRegister = () => {
-  router.push({ name: 'Register' });
+  router.push({ name: 'Login' });
 };
 </script>

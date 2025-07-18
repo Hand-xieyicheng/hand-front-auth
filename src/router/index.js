@@ -8,6 +8,7 @@ const routes = [
     path: '/',
     name: 'Login',
     component: LoginView,
+    meta: { title: 'Hand登录注册' }
   },
   // {
   //   path: '/register',
@@ -34,6 +35,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// 全局导航守卫
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
+  next();
 });
 
 export default router;
