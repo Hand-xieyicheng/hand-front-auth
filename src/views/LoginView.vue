@@ -15,21 +15,21 @@
       <div class="absolute inset-0 flex p-8">
         <div class="text-white text-center">
           <div class="flex items-center">
-            <!-- <img src="@/assets/logo.png" alt="" srcset="" class="w-10 mr-2"> -->
-            <!-- <h1 class="text-4xl text-left font-bold">Hand</h1> -->
+            <img src="@/assets/logo.png" alt="" srcset="" class="w-15 mr-3">
+            <h1 class="text-3xl text-left font-bold">蟹 Bro</h1>
           </div>
           <!-- <p class="text-[clamp(1rem,2vw,1.25rem)] opacity-90">
-            欢迎使用Hand me系统
+            欢迎来到Hand me系统
           </p> -->
         </div>
       </div>
     </div>
     <!-- 右侧登录表单 -->
-    <div class="w-full max-w-xl mx-auto flex items-center justify-center p-6 md:p-12">
+    <div class="w-full max-w-xl mx-auto flex items-center justify-center p-6 md:p-12 mb-50">
       <div class="w-full max-w-md">
     <div class="text-center">
       <div class="flex items-center">
-        <img src="@/assets/logo.png" alt="" srcset="" class="w-6 mr-4">
+        <!-- <img src="@/assets/logo.png" alt="" srcset="" class="w-6 mr-4"> -->
         <h2 class="text-[clamp(1.5rem,3vw,2rem)] text-left font-bold text-gray-800 colorful-text">{{headerData.title}}</h2>
       </div>
       <p class="text-gray-500 mt-2 text-left text-sm">{{headerData.subTitle}}</p>
