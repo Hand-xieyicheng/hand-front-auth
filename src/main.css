@@ -21,6 +21,11 @@
     background-clip: padding-box, border-box;
 }
 
+.red-bg {
+    background-image: url("/src/assets/red-bg.png");
+    background-size: cover;
+}
+
 :root {
     --td-brand-color: #0D5EFF;
     --td-warning-color: yellow;
