@@ -2,7 +2,8 @@ import axios from 'axios';
 import { NotifyPlugin } from 'tdesign-vue-next';
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://localhost:9099', // API基础URL
+  // baseURL: 'http://localhost:9099', // API基础URL
+  baseURL: 'http://10.211.105.98:9099', // API基础URL
   timeout: 5000, // 请求超时时间
 });
 
@@ -37,7 +38,7 @@ service.interceptors.response.use(
     // 处理"ERR_NETWORK"错误
     if (error.code === 'ERR_NETWORK') {
       // 显示网络错误提示
-      NotifyPlugin('error', { title: '网络错误，请检查网络连接', content: error.message })
+      NotifyPlugin('error', { title: '网络错误，请检查网络连接', content: error.message, duration: 3000, closeBtn: true })
     }
     // 统一处理401未授权错误
     if (error.response && error.response.status === 401) {

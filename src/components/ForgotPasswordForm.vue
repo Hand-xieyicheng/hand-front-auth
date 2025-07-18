@@ -1,19 +1,18 @@
 <template>
   <div class="form-container">
-    <TForm>
+    <div class="min-h-[45px]">
+      <div class="text-red-500 text-sm bg-red-100 rounded p-2 mt-2 mb-2 flex items-center gap-1" v-if="errors.email">
+        <error-circle-icon /> {{ errors.email }}
+      </div>
+    </div>
+    <t-form>
       <!-- 邮箱 -->
-      <TInput class="mb-4" size="large" v-model="formData.email" placeholder="邮箱" type="email"
-        :status="getFieldStatus('email')">
+      <t-auto-complete class="mb-4" :options="emailOptions" filterable v-model="formData.email" size="large"
+        placeholder="邮箱" :status="getFieldStatus('identifier')">
         <template #prefix-icon>
           <MailIcon />
         </template>
-      </TInput>
-      <TMessage
-        
-        theme="error"
-        :content="errors.email"
-        class="mt-2"
-      />
+      </t-auto-complete>
       <!-- 发送邮件按钮 -->
       <div class="mt-6">
         <TButton size="large" @click="handleForgotPassword" type="primary" :loading="loading" :disabled="loading" block>
@@ -26,16 +25,16 @@
         <span class="text-gray-500 text-sm">记起来了? </span>
         <t-link @click="onchangeOperate('login')" theme="primary">返回登录</t-link>
       </div>
-    </TForm>
+    </t-form>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive,computed } from 'vue';
 import { forgotPassword } from '@/api/auth';
 import { useRouter } from 'vue-router';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { MailIcon } from 'tdesign-icons-vue-next';
+import { MailIcon, ErrorCircleIcon } from 'tdesign-icons-vue-next';
 
 const props = defineProps({
   onchangeOperate: {
@@ -114,4 +113,11 @@ const handleForgotPassword = async () => {
     loading.value = false;
   }
 };
+const emailSuffix = ['@qq.com', '@163.com', '@gmail.com', '@hand-china.com'];
+const emailOptions = computed(() => {
+  const emailPrefix = formData.email.split('@')[0];
+  if (!emailPrefix) return [];
+
+  return emailSuffix.map((suffix) => emailPrefix + suffix);
+});
 </script>

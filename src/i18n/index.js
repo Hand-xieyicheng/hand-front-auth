@@ -20,7 +20,7 @@ const messages = {
       minLength: 'Must be at least {length} characters'
     },
     common: {
-      welcome: 'Welcome to our platform',
+      welcome: 'Welcome to our plat-form',
       enterpriseSolution: 'Enterprise-grade solutions for modern businesses',
       dontHaveAccount: "Don't have an account?",
       darkMode: 'Dark Mode'

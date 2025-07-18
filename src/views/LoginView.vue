@@ -27,7 +27,7 @@
     <!-- 右侧登录表单 -->
     <div class="w-full max-w-xl mx-auto flex items-center justify-center p-6 md:p-12">
       <div class="w-full max-w-md">
-    <div class="text-center mb-10">
+    <div class="text-center">
       <div class="flex items-center">
         <img src="@/assets/logo.png" alt="" srcset="" class="w-6 mr-4">
         <h2 class="text-[clamp(1.5rem,3vw,2rem)] text-left font-bold text-gray-800 colorful-text">{{headerData.title}}</h2>
@@ -72,11 +72,11 @@ import RegisterForm from '@/components/RegisterForm.vue';
 import ForgotPasswordForm from '@/components/ForgotPasswordForm.vue';
 const headerDataObj = {
   login: {
-    title: '登录Hand me',
+    title: '登录',
     subTitle: '登录您的账户，继续您的旅程'
   },
   register: {
-    title: '注册Hand me',
+    title: '注册',
     subTitle: '创建您的账户，开启新的旅程'
   },
   forgotPassword: {

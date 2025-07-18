@@ -9,7 +9,7 @@
         </div>
     <form @submit.prevent="handleResetPassword">
       <!-- 新密码 -->
-      <TInput
+      <t-input
         v-model="formData.newPassword"
         type="password"
         placeholder="新密码"
@@ -23,7 +23,7 @@
       />
 
       <!-- 确认新密码 -->
-      <TInput
+      <t-input
         v-model="formData.confirmPassword"
         type="password"
         placeholder="确认新密码"

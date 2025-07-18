@@ -1,8 +1,13 @@
 <template>
   <div class="form-container">
-    <form @submit.prevent="handleRegister">
+    <div class="min-h-[45px]">
+      <div class="text-red-500 text-sm bg-red-100 rounded p-2 mt-2 mb-2 flex items-center gap-1" v-if="errors.username || errors.email || errors.password || errors.confirmPassword">
+        <error-circle-icon /> {{ errors.username || errors.email || errors.password || errors.confirmPassword }}
+      </div>
+    </div>
+    <t-form>
       <!-- 用户名 -->
-      <TInput
+      <t-input
         class="mb-4"
         size="large"
         v-model="formData.username"
@@ -12,36 +17,16 @@
       <template #prefix-icon>
             <DesktopIcon />
           </template>
-        </TInput>
-      <TMessage
-        v-if="errors.username"
-        theme="error"
-        :content="errors.username"
-        class="mt-2"
-      />
-
+        </t-input>
       <!-- 邮箱 -->
-      <TInput
-        class="mb-4"
-        size="large"
-        v-model="formData.email"
-        placeholder="邮箱"
-        type="email"
-        :status="getFieldStatus('email')"
-      >
+      <t-auto-complete class="mb-4" :options="emailOptions" filterable v-model="formData.email" size="large"
+        placeholder="邮箱" :status="getFieldStatus('email')">
         <template #prefix-icon>
-            <MailIcon />
-          </template>
-      </TInput>
-      <TMessage
-        v-if="errors.email"
-        theme="error"
-        :content="errors.email"
-        class="mt-2"
-      />
-
+          <MailIcon />
+        </template>
+      </t-auto-complete>
       <!-- 密码 -->
-      <TInput
+      <t-input
         class="mb-4"
         size="large"
         v-model="formData.password"
@@ -52,16 +37,9 @@
         <template #prefix-icon>
             <LockOnIcon />
           </template>
-      </TInput>
-      <TMessage
-        v-if="errors.password"
-        theme="error"
-        :content="errors.password"
-        class="mt-2"
-      />
-
+      </t-input>
       <!-- 确认密码 -->
-      <TInput
+      <t-input
         class="mb-4"
         size="large"
         v-model="formData.confirmPassword"
@@ -72,18 +50,11 @@
         <template #prefix-icon>
             <LockOnIcon />
           </template>
-      </TInput>
-      <TMessage
-        v-if="errors.confirmPassword"
-        theme="error"
-        :content="errors.confirmPassword"
-        class="mt-2"
-      />
-
+      </t-input>
       <!-- 注册按钮 -->
       <div class="mt-6">
-        <TButton size="large" type="primary" :loading="loading" :disabled="loading" block>
-          注册
+        <TButton @click="handleRegister" size="large" type="primary" :loading="loading" :disabled="loading" block>
+          注&nbsp;&nbsp;册
         </TButton>
       </div>
 
@@ -92,15 +63,15 @@
         <span class="text-gray-500 text-sm">已有账户? </span>
         <t-link @click="onchangeOperate('login')" theme="primary">去登录</t-link>
       </div>
-    </form>
+    </t-form>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { register } from '@/api/auth';
 import { useRouter } from 'vue-router';
-import { Barcode1Icon, DesktopIcon, LockOnIcon, MailIcon } from 'tdesign-icons-vue-next';
+import { Barcode1Icon, DesktopIcon, LockOnIcon, MailIcon, ErrorCircleIcon } from 'tdesign-icons-vue-next';
 
 const props = defineProps({
   onchangeOperate: {
@@ -213,4 +184,12 @@ const handleRegister = async () => {
     loading.value = false;
   }
 };
+
+const emailSuffix = ['@qq.com', '@163.com', '@gmail.com', '@hand-china.com'];
+const emailOptions = computed(() => {
+  const emailPrefix = formData.email.split('@')[0];
+  if (!emailPrefix) return [];
+
+  return emailSuffix.map((suffix) => emailPrefix + suffix);
+});
 </script>

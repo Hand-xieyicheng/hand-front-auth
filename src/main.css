@@ -12,6 +12,15 @@
     border: none;
 }
 
+.colorful-outline-button {
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(45deg, rgb(242, 87, 180), rgb(230, 46, 163), rgb(169, 143, 255), rgb(8, 64, 248), rgb(66, 228, 252), rgb(255, 102, 115), rgb(255, 226, 122), rgb(255, 226, 122));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
 :root {
     --td-brand-color: #0D5EFF;
     --td-warning-color: yellow;
