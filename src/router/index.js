@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LoginView from '@/views/LoginView.vue';
 import ResetPasswordView from '@/views/ResetPasswordView.vue';
 import VerifyEmailView from '@/views/VerifyEmailView.vue';
+import DashboardView from '@/views/DashboardView.vue';
 
 const routes = [
   {
@@ -10,16 +11,6 @@ const routes = [
     component: LoginView,
     meta: { title: 'Hand登录注册' }
   },
-  // {
-  //   path: '/register',
-  //   name: 'Register',
-  //   component: RegisterView,
-  // },
-  // {
-  //   path: '/forgot-password',
-  //   name: 'ForgotPassword',
-  //   component: ForgotPasswordView,
-  // },
   {
     path: '/reset-password/:token',
     name: 'ResetPassword',
@@ -30,6 +21,12 @@ const routes = [
     name: 'VerifyEmail',
     component: VerifyEmailView,
   },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: DashboardView,
+    meta: { title: 'HandMe控制台', requiresAuth: true }
+  }
 ];
 
 const router = createRouter({
@@ -42,7 +39,16 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title;
   }
-  next();
+  // 权限拦截，requiresAuth为true，需要登录才能访问
+  if (to.meta.requiresAuth) {
+    if (localStorage.getItem('token')) {
+      next();
+    } else {
+      next({ name: 'Login' });
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

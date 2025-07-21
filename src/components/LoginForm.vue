@@ -49,14 +49,92 @@
       </div>
     </t-form>
     <div class="flex justify-center mt-4 text-sm text-gray-500">
-      <router-link to="/privacy" class="hover:text-primary transition-colors">
-        <t-link class="opacity-50" underline theme="default" size="small">隐私协议</t-link>
-      </router-link>
+      <t-link @click="showPrivacyModal = true" class="opacity-50 hover:text-primary transition-colors cursor-pointer">
+        隐私协议
+      </t-link>
       <span class="mx-2 opacity-50">|</span>
-      <router-link to="/terms" class="hover:text-primary transition-colors">
-        <t-link class="opacity-50" underline theme="default" size="small">用户须知</t-link>
-      </router-link>
+      <t-link @click="showTermsModal = true" class="opacity-50 hover:text-primary transition-colors cursor-pointer">
+        用户须知
+      </t-link>
     </div>
+    
+    <!-- 隐私协议弹窗 -->
+    <t-dialog 
+      :visible="showPrivacyModal" 
+      @close="showPrivacyModal = false" 
+      header="隐私协议"
+      confirm-btn="我已知晓"
+      dialogClassName="terms-dialog"
+      width="500px"
+      @confirm="showPrivacyModal = false"
+      :cancel-btn="null"
+    >
+      <div class="p-4 max-h-[50vh] overflow-y-auto">
+        <p>这里是隐私协议的内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+        <p>隐私协议详细内容...</p>
+      </div>
+    </t-dialog>
+    
+    <!-- 用户须知弹窗 -->
+    <t-dialog 
+      :visible="showTermsModal" 
+      @close="showTermsModal = false" 
+      header="用户须知"
+      confirm-btn="我已知晓"
+      dialogClassName="terms-dialog"
+      width="500px"
+      :cancel-btn="null"
+      @confirm="showTermsModal = false"
+    >
+      <div class="p-4 max-h-[50vh] overflow-y-auto">
+        <p>这里是用户须知的内容...</p>
+        <p>用户须知详细内容...</p>
+      </div>
+    </t-dialog>
   </div>
 </template>
 
@@ -73,7 +151,6 @@ const props = defineProps({
   },
 });
 
-
 const router = useRouter();
 const loading = ref(false);
 const rememberMe = ref(false);
@@ -88,7 +165,8 @@ const errors = reactive({
   captcha: ""
 });
 const captchaUrl = ref("");
-
+const showPrivacyModal = ref(false); // 隐私协议弹窗显示状态
+const showTermsModal = ref(false);   // 用户须知弹窗显示状态
 const renderCustomIcon = () => h(ImageErrorIcon, { size: 16 });
 
 // 获取验证码

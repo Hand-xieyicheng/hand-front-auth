@@ -16,7 +16,7 @@
         <div class="text-white text-center">
           <div class="flex items-center">
             <img src="@/assets/logo.png" alt="" srcset="" class="w-5 mr-3">
-            <h1 class="text-3xl text-left font-bold">Hand</h1>
+            <h1 class="text-3xl text-left font-bold">HandMe</h1>
           </div>
           <!-- <p class="text-[clamp(1rem,2vw,1.25rem)] opacity-90">
             欢迎来到Hand me系统
