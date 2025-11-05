@@ -8,8 +8,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-vue": "^0.10.5",
     "@tailwindcss/postcss": "^4.1.11",
     "core-js": "^3.8.3",
+    "moment": "^2.30.1",
+    "pinia-plugin-persistedstate": "^4.5.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },

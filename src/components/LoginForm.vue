@@ -71,51 +71,7 @@
     >
       <div class="p-4 max-h-[50vh] overflow-y-auto">
         <p>这里是隐私协议的内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
-        <p>隐私协议详细内容...</p>
+        <!-- 隐私协议内容省略 -->
       </div>
     </t-dialog>
     
@@ -132,7 +88,7 @@
     >
       <div class="p-4 max-h-[50vh] overflow-y-auto">
         <p>这里是用户须知的内容...</p>
-        <p>用户须知详细内容...</p>
+        <!-- 用户须知内容省略 -->
       </div>
     </t-dialog>
   </div>
@@ -143,6 +99,8 @@ import { ref, reactive, onMounted, h, computed } from "vue";
 import { login, getCaptcha } from "@/api/auth";
 import { useRouter } from "vue-router";
 import { Barcode1Icon, DesktopIcon, LockOnIcon, ImageErrorIcon, ErrorCircleIcon } from 'tdesign-icons-vue-next';
+import { NotifyPlugin } from 'tdesign-vue-next'; // 引入通知插件
+import { useAuthStore } from '@/store';
 
 const props = defineProps({
   onchangeOperate: {
@@ -154,10 +112,11 @@ const props = defineProps({
 const router = useRouter();
 const loading = ref(false);
 const rememberMe = ref(false);
+const errorCount = ref(0); // 用于刷新验证码的key
 const formData = reactive({
-  identifier: "",
-  password: "",
-  captcha: ""
+  identifier: "18796255976@163.com",
+  password: "xie123456",
+  captcha: "xxxx"
 });
 const errors = reactive({
   identifier: "",
@@ -172,17 +131,21 @@ const renderCustomIcon = () => h(ImageErrorIcon, { size: 16 });
 // 获取验证码
 const fetchCaptcha = async () => {
   try {
+    // 清除之前的错误状态
+    errors.captcha = "";
+    
     const response = await getCaptcha();
     const blob = new Blob([response], { type: "image/svg+xml" });
     captchaUrl.value = URL.createObjectURL(blob);
   } catch (error) {
     console.error("获取验证码失败", error);
-    // 显示错误提示
+    // 错误提示已在axios拦截器中处理，此处无需重复
   }
 };
 
 // 刷新验证码
 const refreshCaptcha = () => {
+  errorCount.value++; // 触发图片重新加载
   fetchCaptcha();
 };
 
@@ -225,22 +188,69 @@ const handleLogin = async () => {
   if (!validateForm()) return;
   loading.value = true;
   try {
-    const response = await login(formData);
-    // 登录成功，存储token等操作
-    localStorage.setItem("token", response.token);
-    router.push("/dashboard");
+    // 登录成功后，axios拦截器会直接返回response.data.data
+    const data = await login(formData);
+    console.log("data", data)
+    // 存储token
+    localStorage.setItem("token", data.data.tokens.access_token);
+    // 储存token到store
+    useAuthStore().setToken(data.data.tokens.access_token);
+    // 储存refreshToken到store
+    useAuthStore().setRefreshToken(data.data.tokens.refresh_token);
+    // 处理记住密码
+    if (rememberMe.value) {
+      localStorage.setItem("rememberedUser", JSON.stringify({
+        identifier: formData.identifier
+        // 注意：实际项目中不要存储密码
+      }));
+    } else {
+      localStorage.removeItem("rememberedUser");
+    }
+    // 显示成功提示（特定业务成功提示保留）
+    NotifyPlugin('success', {
+      title: '登录成功',
+      content: '即将跳转到首页',
+      duration: 1500
+    });
+    // 从store获取重定向URL
+    const { redirectUrl } = useAuthStore();
+    console.log('redirectUrl', redirectUrl);
+    if (redirectUrl) {
+      useAuthStore().setRedirectUrl(""); // 清除存储的URL
+      window.location.href = redirectUrl + `?token=${data.data.tokens.access_token}&refresh_token=${data.data.tokens.refresh_token}`; // 重定向到存储的URL
+    } else {
+      router.push("/dashboard");
+    }
   } catch (error) {
     console.error("登录失败", error);
-    // 显示错误提示
-    if (error.response && error.response.data && error.response.data.message) {
-      // 显示服务器返回的错误信息
-    } else {
-      // 显示通用错误信息
+    refreshCaptcha(); // 登录失败时刷新验证码
+    
+    // 清除表单错误
+    Object.keys(errors).forEach((key) => {
+      errors[key] = "";
+    });
+    
+    // 只处理需要页面特殊处理的错误，通用错误提示已在axios拦截器中处理
+    if (error.type === 'business') {
+      // 业务错误处理 - 仅处理需要显示在表单上的错误
+      if (error.code === 'PARAM_ERROR') {
+        // 参数错误，显示对应字段的错误
+        if (error.data?.missingFields) {
+          // 标记缺失的字段
+          if (!formData.identifier) errors.identifier = "请输入用户名或邮箱";
+          if (!formData.password) errors.password = "请输入密码";
+          if (!formData.captcha) errors.captcha = "请输入验证码";
+        } else if (error.message.includes('验证码')) {
+          errors.captcha = error.message;
+        }
+      }
     }
+    // 其他类型错误（http、network等）已在axios拦截器中处理，无需重复
   } finally {
     loading.value = false;
   }
 };
+
 const emailSuffix = ['@qq.com', '@163.com', '@gmail.com', '@hand-china.com'];
 const emailOptions = computed(() => {
   const emailPrefix = formData.identifier.split('@')[0];
@@ -248,7 +258,21 @@ const emailOptions = computed(() => {
 
   return emailSuffix.map((suffix) => emailPrefix + suffix);
 });
+
 onMounted(() => {
   fetchCaptcha();
+  
+  // 加载记住的用户信息
+  const rememberedUser = localStorage.getItem("rememberedUser");
+  if (rememberedUser) {
+    try {
+      const userData = JSON.parse(rememberedUser);
+      formData.identifier = userData.identifier;
+      rememberMe.value = true;
+    } catch (e) {
+      console.error('解析记住的用户信息失败', e);
+      localStorage.removeItem("rememberedUser");
+    }
+  }
 });
 </script>

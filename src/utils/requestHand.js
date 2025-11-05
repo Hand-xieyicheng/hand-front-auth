@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { NotifyPlugin } from 'tdesign-vue-next';
 import router from '../router'; // 导入路由实例，用于跳转登录页
-
+import { useAuthStore } from '@/store';
 // 创建axios实例
 const service = axios.create({
   baseURL: 'http://localhost:9099', // API基础URL
@@ -13,8 +13,11 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // 在发送请求之前做些什么
+    console.log('请求配置:', config);
+    const authStore = useAuthStore();
+    config.baseURL = authStore.handEnv;
     // 例如添加token
-    const token = localStorage.getItem('token');
+    const token = authStore.access_token;
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -52,7 +55,7 @@ service.interceptors.response.use(
       if (data.status === 'success') {
         // 可选：对特定成功操作显示提示
         if (data.msg && data.msg !== 'success') {
-          NotifyPlugin('success', { title: '操作成功', content: data.message || data.msg, duration: 2000, closeable: true });  
+          NotifyPlugin('success', { title: '操作成功', content: data.message || data.msg, duration: 2000 });
         }
         return data;
       }

@@ -69,7 +69,6 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue';
-import { NotifyPlugin } from 'tdesign-vue-next';
 import { register } from '@/api/auth';
 import { useRouter } from 'vue-router';
 import { Barcode1Icon, DesktopIcon, LockOnIcon, MailIcon, ErrorCircleIcon } from 'tdesign-icons-vue-next';
@@ -163,15 +162,9 @@ const handleRegister = async () => {
       password: formData.password,
     });
     if(response.status === "success"){
-      NotifyPlugin('success', { title: '注册成功', content: response.body, duration: 3000, closeBtn: true })
-    } else {
-      NotifyPlugin('error', { title: '注册失败', content: response.msg, duration: 3000, closeBtn: true })
+      // 注册成功，跳转到登录页或验证邮箱页
+      props.onchangeOperate('login');
     }
-    // 注册成功，跳转到登录页或验证邮箱页
-    // router.push({
-    //   name: 'VerifyEmailSent',
-    //   params: { email: formData.email }
-    // });
   } catch (error) {
     console.error('注册失败', error);
     // 显示错误提示
