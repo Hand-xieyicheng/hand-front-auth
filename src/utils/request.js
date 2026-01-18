@@ -4,8 +4,7 @@ import router from '../router'; // 导入路由实例，用于跳转登录页
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://localhost:9099', // API基础URL
-  // baseURL: 'http://10.211.105.98:9099', // API基础URL
+  baseURL: process.env.VUE_APP_KOA_BASE_URL, // API基础URL
   timeout: 5000, // 请求超时时间
 });
 

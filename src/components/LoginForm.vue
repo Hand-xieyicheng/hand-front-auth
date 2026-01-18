@@ -22,7 +22,7 @@
         </template>
       </t-input>
       <!-- 验证码 -->
-      <div class="flex items-center gap-3 mb-4">
+      <!-- <div class="flex items-center gap-3 mb-4">
         <t-input size="large" v-model="formData.captcha" placeholder="验证码" :status="getFieldStatus('captcha')">
           <template #prefix-icon>
             <Barcode1Icon />
@@ -30,7 +30,7 @@
         </t-input>
         <t-image :key="errorCount" @click="refreshCaptcha" :src="captchaUrl"
           class="colorful-outline-button h-10 rounded cursor-pointer min-w-[100px]" :error="renderCustomIcon" />
-      </div>
+      </div> -->
       <!-- 记住密码和登录按钮 -->
       <div class="flex justify-between items-center">
         <TCheckbox v-model="rememberMe"><span class="text-gray-500">记住密码</span></TCheckbox>
