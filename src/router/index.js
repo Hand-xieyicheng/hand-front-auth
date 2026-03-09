@@ -33,6 +33,12 @@ const routes = [
     name: 'Dashboard',
     component: DashboardView,
     meta: { title: 'HandMe控制台', requiresAuth: true }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('@/views/ProfileView.vue'),
+    meta: { title: '个人信息设置', requiresAuth: true }
   }
 ];
 
@@ -83,11 +89,11 @@ router.beforeEach((to, from, next) => {
   }
   console.log("to", to, from, next);
   // 如果是登录页，直接放行
-  if(to.path === "/login") {
+  if (to.path === "/login") {
     // 获取params参数
     const { query } = to;
     console.log('--', query);
-    if(query.redirect){
+    if (query.redirect) {
       const authStore = useAuthStore();
       authStore.setRedirectUrl(query.redirect);
     }
@@ -95,12 +101,12 @@ router.beforeEach((to, from, next) => {
     return;
   }
   // 如果是工作台或门户首页，从hash获取参数
-  if(to.path === "/workplace" || to.path === "/portal/home") {
+  if (to.path === "/workplace" || to.path === "/portal/home") {
     const { hash } = to;
     // 从hash获取参数
     const hashParams = parseHashParams(hash);
     console.log(hashParams);
-    if(hashParams.access_token){
+    if (hashParams.access_token) {
       const authStore = useAuthStore();
       authStore.setHandAuth({
         ...hashParams,
